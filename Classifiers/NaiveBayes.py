@@ -27,20 +27,21 @@ class GaussianNaiveBayes():
         for i in self.classes:
             for j in range(len(x_train)):
                 if y_train[j] == i:
-                    self.class_dict.append(x_train[j])
+                    self.class_dict[i].append(x_train[j])
         for class_val,data in self.class_dict.items():
             for col in zip(*data):
-                self.stats[class_val].append(np.mean(col), np.std(col))
+                self.stats[class_val].append((np.mean(col), np.std(col)))
         if x_test is None:
             return None
         for row in x_test:
-            for i in classes:
+            for i in self.classes:
                 self.prob[i] = 1
             for class_val, data in self.stats.items():
                 for i in range(len(row)):
                     mean, std = data[i]
-                    x = row[1]
-                    self.prob[class_val] *= _gaussian_probabilities_distribution(x, mean, std)
+                    x = row[i]
+                    self.prob[class_val] *= self._gaussian_probabilities_distribution(x, mean, std)
+            #print(self.prob," for row ",row)
             minimum = 0
             cl = 0
             for classes, data in self.prob.items():
