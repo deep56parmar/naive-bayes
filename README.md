@@ -8,7 +8,7 @@
 Installation of required packages using pip. 
 
 ``` Terminal
-$pip install -a requirement.txt
+$pip install -r requirement.txt
 ```
 
 
